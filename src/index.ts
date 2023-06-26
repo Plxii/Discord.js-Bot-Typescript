@@ -18,7 +18,7 @@ for (let DBFile of DBFiles) {
         let BuildContainer = fs.readFileSync(`./assets/db-builder/${DBFile}`).toString(); // Convert buffer to string
 
         Container.run(BuildContainer);
-        console.info(`Please review '${DBFile.replace('.sql', '.db')}' before executing it.`)
+        console.info('\x1b[31m%s\x1b[0m', `Please review '${DBFile.replace('.sql', '.db')}' before executing it.`)
     }
 }
 
