@@ -1,0 +1,8 @@
+# container files or folder
+/database
+
+# modules of nodejs folder
+/node_modules
+
+# all typescript files
+*.ts
