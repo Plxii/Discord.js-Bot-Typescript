@@ -1,5 +1,28 @@
-import { Client, Events, GatewayIntentBits, Presence, Sweepers } from 'discord.js';
+import { Client, Events, GatewayIntentBits } from 'discord.js';
 import * as sqlite3 from 'sqlite3';
+import * as fs from 'fs';
+
+// replace SQL string to Database File & Check directory
+const DBFiles = fs.readdirSync('./assets/db-builder/').filter(v => v.endsWith('.sql'));
+
+for (let DBFile of DBFiles) {
+    if (!fs.existsSync('./database/')) {
+        fs.mkdirSync('./database/');
+    } else if (!fs.existsSync(`./database/${DBFile.replace('.sql', '.db')}`)) {
+        fs.writeFileSync(`./database/${DBFile.replace('.sql', '.db')}`, '');
+
+        let Container = new sqlite3.Database(`./database/${DBFile.replace('.sql', '.db')}`, err => {
+            if (err) return console.error(err);
+        });
+
+        let BuildContainer = fs.readFileSync(`./assets/db-builder/${DBFile}`).toString(); // Convert buffer to string
+
+        Container.run(BuildContainer);
+        console.info(`Please review '${DBFile.replace('.sql', '.db')}' before executing it.`)
+    }
+}
+
+
 
 const DiscordContainer = new sqlite3.Database('./database/discord.db', err => {
     if (err) return console.error(err);
