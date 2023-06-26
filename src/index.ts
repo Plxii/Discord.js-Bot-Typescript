@@ -2,7 +2,7 @@ import { Client, Events, GatewayIntentBits } from 'discord.js';
 import * as sqlite3 from 'sqlite3';
 import * as fs from 'fs';
 
-// replace SQL string to Database File & Check directory
+// Verify that the database directory aligns with the database builder.
 const DBFiles = fs.readdirSync('./assets/db-builder/').filter(v => v.endsWith('.sql'));
 
 for (let DBFile of DBFiles) {
