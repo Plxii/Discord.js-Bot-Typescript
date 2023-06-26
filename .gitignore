@@ -3,6 +3,3 @@
 
 # modules of nodejs folder
 /node_modules
-
-# all typescript files
-*.ts
