@@ -22,6 +22,6 @@
   "scripts": {
     "build": "tsc",
     "start": "node src/index.js",
-    "test": ""
+    "test": "ts-node src/index.ts"
   }
 }

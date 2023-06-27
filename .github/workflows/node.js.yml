@@ -29,12 +29,12 @@ jobs:
           node dist/verify-database.js
 
       - name: Retrieve Bot Token
+        id: retrieve-token
         run: |
-          node dist/retrieve-token.js
-        env:
-          DB_PATH: ./database/discord.db
+          echo "::set-output name=bot-token::$(node dist/retrieve-token.js)"
 
       - name: Deploy Discord Bot
         run: node dist/index.js
         env:
           BOT_TOKEN: ${{ steps.retrieve-token.outputs.bot-token }}
+          DB_PATH: ./database/discord.db
