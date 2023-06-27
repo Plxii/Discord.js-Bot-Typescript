@@ -1,5 +1,5 @@
 # container files or folder
-/database
+*.db
 
 # modules of nodejs folder
 /node_modules

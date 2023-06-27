@@ -1,14 +1,13 @@
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits } from 'discord.js';
 import * as sqlite3 from 'sqlite3';
 import * as fs from 'fs';
+import { Discord_ClientCredentials_Container } from '../database/container/types';
 
 // Verify that the database directory aligns with the database builder.
 const DBFiles = fs.readdirSync('./assets/db-builder/').filter(v => v.endsWith('.sql'));
 
 for (let DBFile of DBFiles) {
-    if (!fs.existsSync('./database/')) {
-        fs.mkdirSync('./database/');
-    } else if (!fs.existsSync(`./database/${DBFile.replace('.sql', '.db')}`)) {
+    if (!fs.existsSync(`./database/${DBFile.replace('.sql', '.db')}`)) {
         fs.writeFileSync(`./database/${DBFile.replace('.sql', '.db')}`, '');
 
         let Container = new sqlite3.Database(`./database/${DBFile.replace('.sql', '.db')}`, err => {
@@ -23,19 +22,12 @@ for (let DBFile of DBFiles) {
 }
 
 
-
+// Create database method of database file
 const DiscordContainer = new sqlite3.Database('./database/discord.db', err => {
     if (err) return console.error(err);
 });
 
-export interface Discord_ClientCredentials_Container {
-    "Token": string
-    "Application Id": string
-    "Public Key": string
-    "Client Id": string
-    "Client Secret": string
-}
-
+// Main
 DiscordContainer.get('SELECT * FROM ClientCredentials', (err, rows: Discord_ClientCredentials_Container) => {
     if (err) return console.error(err);
 
@@ -67,9 +59,18 @@ DiscordContainer.get('SELECT * FROM ClientCredentials', (err, rows: Discord_Clie
         waitGuildTimeout: 15000,
     });
     
-    client.on(Events.ClientReady, () => {
-        console.info(`${__filename} >> Running on ${client.user?.tag} already.`)
-    });
-    
-    client.login(rows.Token);
+    client.login(rows.Token).then(
+        async () => {
+            // event files
+            const events = fs.readdirSync('./src/events/').filter(v => (v.endsWith('.ts') || v.endsWith('.js')));
+            if (events) events.map(async v => (await import(`./events/${v}`)).default(client));
+
+            // handler files
+            const handlers = fs.readdirSync('./src/handlers/').filter(v => (v.endsWith('.ts') || v.endsWith('.js')));
+            if (handlers) handlers.map(async v => (await import(`./handlers/${v}`)).default(client));
+        }
+    );
 });
+
+
+DiscordContainer.close(err => { if (err) console.error(err) });
