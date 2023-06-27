@@ -1,4 +1,4 @@
-# Discord School Hub Bot Project's
+# Discord School Hub Webhooks Project's
  - This project is an integral component of the PiXal Project's. If you find this project helpful or interesting, you can support me by buying me a coffee [here](https://www.buymeacoffee.com/plai).
 
 ## Getting Involved
