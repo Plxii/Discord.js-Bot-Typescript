@@ -1,5 +1,6 @@
-![The Box Profile](assets/images/The%20Box%20Profile.png)
-
+<p align=center>
+  <img src="assets/images/The%20Box%20Profile.png" alt="Image of The Box Profile">
+</p>
 
 <h1 align="center">The Box Discord Project's</h1>
 
