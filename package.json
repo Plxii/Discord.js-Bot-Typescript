@@ -6,13 +6,12 @@
     "sqlite3": "^5.1.6",
     "utf-8-validate": "^6.0.3"
   },
-  "name": "p.plai-discord-bot",
+  "name": "the.box-discord-project",
   "version": "1.0.0",
   "description": "This is a native bot for school and some discord server only.",
   "main": "src/index.ts",
   "keywords": [
-    "School",
-    "Hub",
+    "School-Bot",
     "DiscordAPI",
     "MusicAPI",
     "Native-Bot"
