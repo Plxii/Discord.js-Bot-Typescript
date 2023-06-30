@@ -1,3 +1,7 @@
+<p align=center>
+  <img src="assets/images/The%20Box%20Profile.png" alt="Image of The Box Profile">
+</p>
+
 <h1 align="center">The Box Discord Project's</h1>
 
 Welcome to the Box Discord Bot GitHub repository! This project focuses on developing a school-specific Discord bot that aims to enhance the Discord experience within our educational community.
