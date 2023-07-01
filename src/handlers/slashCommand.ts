@@ -3,6 +3,7 @@ import * as sqlite3 from 'sqlite3';
 import * as fs from 'fs';
 import { Discord_ClientCredentials_Container } from '../../database/container/types';
 
+
 export default async (client: Client) => {
     // Create database method of database file
     const DiscordContainer = new sqlite3.Database('./database/discord.db', err => {
@@ -17,7 +18,7 @@ export default async (client: Client) => {
         // get slash command files
         let commandFiles = fs.readdirSync(`./src/commands/`).filter(v => (v.endsWith('.ts') || v.endsWith('.js')));
         for (let commandFile of commandFiles) {
-            const command = (await import(`../commands/ping`)).default;
+            const command = (await import(`../commands/${commandFile}`)).default;
             CommandArray.push(command.data.toJSON());
             CommandCollection.set(command.data.name, command);
         }
