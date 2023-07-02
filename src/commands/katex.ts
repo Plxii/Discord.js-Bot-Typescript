@@ -17,41 +17,34 @@ import fetch from 'node-fetch';
 const defaultChartWidth = 250;
 const defaultChartHeight = 150;
 
+
 export default {
     data: new SlashCommandBuilder()
-        .setName('calculate')
-        .setDescription('Perform math calculations')
-        .addStringOption((expression) =>
-            expression.setName('expression').setDescription('Enter a math expression').setRequired(true)
+        .setName('katex')
+        .setDescription('Display LaTex Image')
+        .addStringOption((katex) =>
+            katex
+            .setName('latex')
+            .setDescription('View LaTex Code: https://katex.org/docs/supported.html')
+            .setRequired(true)
         ),
     async autoInteraction(client: Client, interaction: AutocompleteInteraction) {},
     async run(interaction: ChatInputCommandInteraction) {
-        const mathExpression = interaction.options.getString('expression', true);
+        const latex = interaction.options.getString('latex', true);
 
-        try {
-            let result = math.evaluate(mathExpression).toString();
-            let latexExpression = math.parse(mathExpression).toTex({
-                parenthesis: 'auto'
-            });
-            let LaTexCode = `${latexExpression}=${result}`;
-            console.info(LaTexCode);
-            const imageBuffer = await renderLaTeX(LaTexCode);
+        let LaTexParse = math.parse(latex).toTex({
+            parenthesis: 'auto'
+        });
+        const imageBuffer = await renderLaTeX(LaTexParse);
 
-            await interaction.deferReply(); // Defer the initial reply
+        await interaction.deferReply(); // Defer the initial reply
 
-            await interaction.followUp({
-                content: `The expression \`${mathExpression}\` is equal to \`${result}\``,
-                files: [{
-                    attachment: imageBuffer,
-                    name: "expression-chart.png",
-                }],
-            });
-        } catch (error) {
-            console.error('Error parsing math expression:', error);
-            await interaction.reply({
-                content: 'Invalid math expression. Please check your input.',
-            });
-        }
+        await interaction.followUp({
+            files: [{
+                attachment: imageBuffer,
+                name: "latex-chart.png",
+            }],
+        });
     },
 };
 
@@ -71,10 +64,9 @@ async function getChartUrl(latexCode: string) {
 
     const chartUrl = `${chartApiUrl}?cht=tx&chl=${encodeURIComponent(
         latexCode
-    )}&chs=${chartWidth}x${chartHeight}&chf=bg,s,${backgroundColor}&chco=${textColor},${textColor}&chxs=0,${textColor},0,lt`;
+    )}&chs=${chartWidth}x${chartHeight}&chf=bg,s,${backgroundColor}&chco=${textColor},${textColor}&chxs=0,${textColor},16,0,lt`;
     return chartUrl;
 }
-
 
 function calculateChartWidth(latexCode: string) {
     const maxWidth = 1200; // Maximum width of the chart
