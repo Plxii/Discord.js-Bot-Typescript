@@ -20,49 +20,65 @@ export default {
     data: new SlashCommandBuilder()
         .setName('calculate')
         .setDescription('Perform math calculations')
-        .addStringOption((expression) =>
-            expression.setName('expression').setDescription('Enter a math expression').setRequired(true)
+        .addStringOption((expression) => expression
+            .setName('expression')
+            .setDescription('Enter a math expression')
+            .setRequired(true)
+        )
+        .addBooleanOption((renderLaTex) => renderLaTex
+            .setName('render_latex')
+            .setDescription('Enable LaTex Rendering for Easier Readability (default: True)') 
+            .setRequired(false)
         ),
     async autoInteraction(client: Client, interaction: AutocompleteInteraction) {},
     async run(interaction: ChatInputCommandInteraction) {
         var mathExpression = interaction.options.getString('expression', true);
-
+        var rendering_latex = interaction.options.getBoolean('render_latex') ?? true;
+    
         if (!mathExpression.includes('==') && !mathExpression.includes('===')) {
             mathExpression = mathExpression.replace(/=/g, '==');
         }
-
+    
         try {
             let result = math.evaluate(mathExpression).toString();
-            let latexExpression = math.parse(mathExpression).toTex({
-                parenthesis: 'auto'
-            });
-            let LaTexCode = `${latexExpression}=${result}`;
-            const imageBuffer = await renderLaTeX(LaTexCode);
-
             await interaction.deferReply(); // Defer the initial reply
-
-            await interaction.followUp({
-                content: `The expression \`${mathExpression}\` is equal to \`${result}\``,
-                files: [{
-                    attachment: imageBuffer,
-                    name: "expression-chart.png",
-                }],
-            });
+    
+            if (rendering_latex) {
+                let latexExpression = math.parse(mathExpression).toTex({
+                    parenthesis: 'auto'
+                });
+                let LaTexCode = `${latexExpression}=${result}`;
+                var imageBuffer = await renderLaTeX(LaTexCode);
+    
+                await interaction.followUp({
+                    content: `The expression \`${mathExpression}\` is equal to \`${result}\``,
+                    files: [{
+                        attachment: imageBuffer,
+                        name: "expression-chart.png",
+                    }],
+                });
+            } else {
+                await interaction.followUp({
+                    content: `The expression \`${mathExpression}\` is equal to \`${result}\``,
+                });
+            }
         } catch (error) {
             console.error('Error parsing math expression:', error);
             await interaction.reply({
                 content: 'Invalid math expression. Please check your input.',
             });
         }
-    },
+    }
+    
 };
 
-async function renderLaTeX(latexCode: string) {
+async function renderLaTeX(latexCode: string): Promise<Buffer> {
     const chartUrl = await getChartUrl(latexCode);
-    const response = await fetch(chartUrl) as any;
-    const buffer = await response.buffer();
-    return buffer;
+    const response = await fetch(chartUrl);
+    const buffer = await response.arrayBuffer();
+    return Buffer.from(buffer);
 }
+
 
 async function getChartUrl(latexCode: string) {
     const chartApiUrl = 'https://chart.googleapis.com/chart';

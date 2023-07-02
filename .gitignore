@@ -3,6 +3,3 @@
 
 # modules of nodejs folder
 /node_modules
-
-# development
-/src/commands/katex.ts
