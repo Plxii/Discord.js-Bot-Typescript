@@ -38,7 +38,6 @@ export default {
                 parenthesis: 'auto'
             });
             let LaTexCode = `${latexExpression}=${result}`;
-            console.info(LaTexCode);
             const imageBuffer = await renderLaTeX(LaTexCode);
 
             await interaction.deferReply(); // Defer the initial reply
