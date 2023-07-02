@@ -26,7 +26,11 @@ export default {
         ),
     async autoInteraction(client: Client, interaction: AutocompleteInteraction) {},
     async run(interaction: ChatInputCommandInteraction) {
-        const mathExpression = interaction.options.getString('expression', true);
+        var mathExpression = interaction.options.getString('expression', true);
+
+        if (!mathExpression.includes('==') && !mathExpression.includes('===')) {
+            mathExpression = mathExpression.replace(/=/g, '==');
+        }
 
         try {
             let result = math.evaluate(mathExpression).toString();
@@ -71,7 +75,7 @@ async function getChartUrl(latexCode: string) {
 
     const chartUrl = `${chartApiUrl}?cht=tx&chl=${encodeURIComponent(
         latexCode
-    )}&chs=${chartWidth}x${chartHeight}&chf=bg,s,${backgroundColor}&chco=${textColor},${textColor}&chxs=0,${textColor},0,lt`;
+    )}&chs=${chartWidth}x${chartHeight}&chf=bg,s,${backgroundColor}&chco=${textColor},${textColor}&chxs=0,${textColor},12,0,lt`;
     return chartUrl;
 }
 
