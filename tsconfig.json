@@ -1,6 +1,8 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
+        "esModuleInterop": true,
+        
         "alwaysStrict": true,
         "declaration": true,
         "declarationMap": true,

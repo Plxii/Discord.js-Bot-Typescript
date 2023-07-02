@@ -1,40 +1,62 @@
-import { AutocompleteInteraction, ChatInputCommandInteraction, Client, Interaction, SlashCommandBuilder } from 'discord.js';
-import * as math from 'mathjs';
-
-// Looking forward to the upcoming developments!
-import * as katex from 'katex'; // Updated import
-import { createCanvas, loadImage, CanvasRenderingContext2D, Image } from 'canvas';
-
-
-export default {
+import {
+    AutocompleteInteraction,
+    ChatInputCommandInteraction,
+    Client,
+    Interaction,
+    SlashCommandBuilder,
+  } from 'discord.js';
+  import * as math from 'mathjs';
+  import {
+    createCanvas,
+    loadImage,
+    registerFont
+  } from 'canvas';
+  import fetch from 'node-fetch';
+  
+  export default {
     data: new SlashCommandBuilder()
-        .setName('calculate')
-        .setDescription('Perform math calculations')
-        .addStringOption(expression => expression
-            .setName('expression')
-            .setDescription('Enter a math expression')
-            .setRequired(true)
-        ),
+      .setName('calculate')
+      .setDescription('Perform math calculations')
+      .addStringOption((expression) =>
+        expression.setName('expression').setDescription('Enter a math expression').setRequired(true)
+      ),
     async autoInteraction(client: Client, interaction: AutocompleteInteraction) {},
     async run(interaction: ChatInputCommandInteraction) {
-        const mathExpression = interaction.options.getString('expression', true);
-        try {
-            let result = math.evaluate(mathExpression);
-            // Looking forward to the upcoming developments!
-            let latexExpression = math.parse(mathExpression).toTex({ parenthesis: 'auto' });
-            let latexResult = math.format(result, { notation: 'fixed' });
-
-            // You can then send the image buffer in your Discord reply.
-            await interaction.reply({
-                content: `The expression ${mathExpression} is equal to ${result}.`,
-            });
-        } catch (e) {
-            console.info(e);
-            // If an error occurs during evaluation or parsing, handle it gracefully
-            await interaction.reply({
-                content: 'An error occurred while processing the expression.',
-            });
-            return;
-        }
-    }
-};
+      const mathExpression = interaction.options.getString('expression', true);
+  
+      let result = math.evaluate(mathExpression);
+      let latexExpression = math.parse(mathExpression).toTex({ parenthesis: 'auto' });
+      let LaTexCode = `${latexExpression}=${result}`;
+      console.info(LaTexCode);
+  
+      const imageBuffer = await renderLaTeX(LaTexCode);
+      console.log('Image rendered');
+  
+      await interaction.reply({
+        content: `The expression \`${mathExpression}\` is equal to \`${result}\``,
+        files: [
+          {
+            attachment: imageBuffer,
+            name: 'expression.png',
+          },
+        ],
+      });
+    },
+  };
+  
+  async function renderLaTeX(latexCode: string | number | boolean) {
+    const chartUrl = await getChartUrl(latexCode);
+    const response = await fetch(chartUrl);
+    const buffer = await response.buffer();
+    return buffer;
+  }
+  
+  async function getChartUrl(latexCode: string | number | boolean) {
+    const chartApiUrl = 'https://chart.googleapis.com/chart';
+    const chartWidth = 600;
+    const chartHeight = 200;
+  
+    const chartUrl = `${chartApiUrl}?cht=tx&chl=${encodeURIComponent(latexCode)}&chs=${chartWidth}x${chartHeight}`;
+    return chartUrl;
+  }
+  

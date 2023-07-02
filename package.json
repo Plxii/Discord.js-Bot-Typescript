@@ -5,15 +5,12 @@
     "bufferutil": "^4.0.7",
     "canvas": "^2.11.2",
     "discord.js": "^14.11.0",
+    "domino": "^2.1.6",
+    "jsdom": "^22.1.0",
     "katex": "^0.16.8",
-    "latex.js": "^0.12.6",
-    "mathjax-node": "^2.1.1",
-    "mathjax-node-sre": "^4.0.0-beta.1",
-    "mathjax-node-svg2png": "^2.0.0",
     "mathjs": "^11.8.2",
-    "mathjs-expression-parser": "^1.0.2",
-    "node-latex": "^3.1.0",
     "sqlite3": "^5.1.6",
+    "svg2png": "^4.1.1",
     "utf-8-validate": "^6.0.3"
   },
   "name": "the.box-discord-project",
@@ -30,10 +27,12 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "tsc",
-    "start": "node src/index.js",
-    "test": "ts-node src/index.ts"
+    "test": "ts-node src/index.ts",
+    "start": "node src/index.js"
   },
   "devDependencies": {
-    "@types/katex": "^0.16.0"
+    "@types/jsdom": "^21.1.1",
+    "@types/katex": "^0.16.0",
+    "@types/svg2png": "^4.1.2"
   }
 }
