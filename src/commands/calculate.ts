@@ -11,7 +11,6 @@ import {
     loadImage,
     registerFont
 } from 'canvas';
-import fetch from 'node-fetch';
 
 // Define default chart size
 const defaultChartWidth = 250;
@@ -60,7 +59,7 @@ export default {
 
 async function renderLaTeX(latexCode: string) {
     const chartUrl = await getChartUrl(latexCode);
-    const response = await fetch(chartUrl);
+    const response = await fetch(chartUrl) as any;
     const buffer = await response.buffer();
     return buffer;
 }
