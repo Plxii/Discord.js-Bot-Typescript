@@ -32,8 +32,8 @@ export default {
         ),
     async autoInteraction(client: Client, interaction: AutocompleteInteraction) {},
     async run(interaction: ChatInputCommandInteraction) {
-        var mathExpression = interaction.options.getString('expression', true);
-        var rendering_latex = interaction.options.getBoolean('render_latex') ?? true;
+        let mathExpression = interaction.options.getString('expression', true);
+        let rendering_latex = interaction.options.getBoolean('render_latex') ?? true;
     
         if (!mathExpression.includes('==') && !mathExpression.includes('===')) {
             mathExpression = mathExpression.replace(/=/g, '==');
@@ -48,7 +48,7 @@ export default {
                     parenthesis: 'auto'
                 });
                 let LaTexCode = `${latexExpression}=${result}`;
-                var imageBuffer = await renderLaTeX(LaTexCode);
+                let imageBuffer = await renderLaTeX(LaTexCode);
     
                 await interaction.followUp({
                     content: `The expression \`${mathExpression}\` is equal to \`${result}\``,
@@ -100,7 +100,7 @@ function calculateChartWidth(latexCode: string) {
     const characterWidth = 8; // Width of each character in pixels
 
     // Calculate the width based on the length of the code and the character width
-    var width = codeLength * characterWidth;
+    let width = codeLength * characterWidth;
 
     // Check if the calculated width is smaller than the default width, use the default width instead
     if (width < defaultChartWidth) {
@@ -113,7 +113,7 @@ function calculateChartWidth(latexCode: string) {
 
 function calculateChartHeight(chartWidth: number): number {
     const aspectRatio = 2 / 3; // Desired aspect ratio (height / width)
-    var height = Math.round(chartWidth * aspectRatio);
+    let height = Math.round(chartWidth * aspectRatio);
 
     // Check if the calculated height is smaller than the default height, use the default height instead
     if (height < defaultChartHeight) {

@@ -10,7 +10,7 @@ export default async (client: Client) => {
         if (err) return console.error(err);
     });
 
-    DiscordContainer.get('SELECT * FROM ClientCredentials', async (err, rows: Discord_ClientCredentials_Container) => {
+    DiscordContainer.get('SELECT * FROM ClientCredentials', async (err, rows: Discord_ClientCredentials_Container): Promise<void> => {
         if (err) return console.error(err);
         const CommandCollection = new Collection();
         const CommandArray: any[] = [];
@@ -51,9 +51,15 @@ export default async (client: Client) => {
                 }
             }
             else if (interaction.isAutocomplete()) {
-
+              // TODO document why this block is empty
+                let command: any = CommandCollection.get(interaction.commandName);
+                try {
+                    command.autoInteraction(client, interaction);
+                }
+                catch (error) {
+                    console.error(error);
+                }
             }
-
           });
     });
 
