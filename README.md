@@ -1,12 +1,35 @@
-<p align=center>
-  <img src="assets/images/The%20Box%20Profile.png" alt="Image of The Box Profile">
+---
+
+<p align="center">
+  <img src="assets/images/" alt="Icon">
 </p>
 
-<h1 align="center">The Box Discord Project's</h1>
+<h1 align="center">The Discord Bot Template (TypeScript)</h1>
 
-Welcome to the Box Discord Bot GitHub repository! This project focuses on developing a school-specific Discord bot that aims to enhance the Discord experience within our educational community.
+Welcome to the Discord Bot template! This project is based on the [discord.js](https://discord.js.org/) library and uses TypeScript for development.
 
-- This project is an integral component of the PiXal Project's. If you find this project helpful or interesting, you can show your support by buying me a coffee [here](https://www.buymeacoffee.com/plai).
+## Requirements
+- Node.js version >= 16
+  
+  To install Node.js, you can use Homebrew:
+  
+  ```bash
+  brew install node
+  ```
+- Discord.js Library version >= 14
+  
+  To install the Discord.js library, use npm:
+  
+  ```bash
+  npm install discord.js
+  ```
+- TypeScript
+  
+  To install TypeScript, use npm:
+  
+  ```bash
+  npm install -D typescript
+  ```
 
 ## Getting Involved
 
@@ -15,4 +38,3 @@ We welcome anyone interested in contributing to this project to join our Discord
 ## License
 
 This project is licensed under the [Apache License 2.0](./LICENSE).
-
