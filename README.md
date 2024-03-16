@@ -1,6 +1,6 @@
 
 <p align="center">
- <img src="assets/images/" alt="Icon">
+ <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/800px-Typescript_logo_2020.svg.png" alt="TypeScript Icon" width="60" height="60">
 </p>
 
 <h1 align="center">The Discord Bot Template (TypeScript)</h1>
