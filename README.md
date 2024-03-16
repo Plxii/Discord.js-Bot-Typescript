@@ -56,4 +56,4 @@ We have a vibrant Discord community here: [https://discord.gg/E5NXQuJPgf](https:
 
 **License:**
 
-This project is unlicensed. ^^
+This project is [unlicense](./LICENSE). ^^
