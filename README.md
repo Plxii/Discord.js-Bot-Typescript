@@ -56,14 +56,4 @@ We have a vibrant Discord community here: [https://discord.gg/E5NXQuJPgf](https:
 
 **License:**
 
-This project is licensed under the Apache License 2.0 (see the LICENSE file for details).
-
-**Improvements:**
-
-* Removed unnecessary HTML tags and centered alignment. 
-* Used a more descriptive title.
-* Combined the requirements and installation sections for better flow.
-* Shortened the welcome message and emphasized contribution opportunities.
-* Removed the placeholder image.
-
-I hope this is a clearer and more concise version of the original text!
+This project is unlicensed. ^^
